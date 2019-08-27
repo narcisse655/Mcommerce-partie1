@@ -16,7 +16,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Api( description="API pour es opérations CRUD sur les produits.")
@@ -36,7 +38,7 @@ public class ProductController {
 
         Iterable<Product> produits = productDao.findAll();
 
-        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat");
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat", "marge");
 
         FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
 
@@ -86,7 +88,7 @@ public class ProductController {
     @DeleteMapping (value = "/Produits/{id}")
     public void supprimerProduit(@PathVariable int id) {
 
-        productDao.delete(id);
+        productDao.deleteById(id);
     }
 
     @PutMapping (value = "/Produits")
@@ -101,6 +103,18 @@ public class ProductController {
     public List<Product>  testeDeRequetes(@PathVariable int prix) {
 
         return productDao.chercherUnProduitCher(400);
+    }
+
+    @GetMapping(value = "/AdminProduits")
+    public Map<Product, Integer> calculerMargeProduit(){
+        List<Product> produits = productDao.findAll();
+        Map<Product, Integer> map = new HashMap<>();
+        for (Product p: produits){
+            p.setMarge(p.getPrix() - p.getPrixAchat());
+            map.put(p, p.getMarge());
+            productDao.save(p);
+        }
+        return map;
     }
 
 
