@@ -22,7 +22,6 @@ import java.util.Map;
 
 
 @Api( description="API pour es opérations CRUD sur les produits.")
-
 @RestController
 public class ProductController {
 
@@ -38,7 +37,7 @@ public class ProductController {
 
         Iterable<Product> produits = productDao.findAll();
 
-        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat", "marge");
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat");
 
         FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
 
@@ -107,16 +106,14 @@ public class ProductController {
 
     @GetMapping(value = "/AdminProduits")
     public Map<Product, Integer> calculerMargeProduit(){
+        int marge = 0;
         List<Product> produits = productDao.findAll();
         Map<Product, Integer> map = new HashMap<>();
         for (Product p: produits){
-            p.setMarge(p.getPrix() - p.getPrixAchat());
-            map.put(p, p.getMarge());
-            productDao.save(p);
+            marge = p.getPrix()-p.getPrixAchat();
+            map.put(p, marge);
         }
         return map;
     }
-
-
 
 }

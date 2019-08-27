@@ -1,6 +1,8 @@
 package com.ecommerce.microcommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Entity;
@@ -8,8 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 
+
 @Entity
-@JsonFilter("monFiltreDynamique")
+//@JsonFilter("monFiltreDynamique")
 public class Product {
 
     @Id
@@ -24,7 +27,6 @@ public class Product {
 
     //information que nous ne souhaitons pas exposer
     private int prixAchat;
-    private int marge;
 
     //constructeur par défaut
     public Product() {
@@ -68,14 +70,6 @@ public class Product {
 
     public void setPrixAchat(int prixAchat) {
         this.prixAchat = prixAchat;
-    }
-
-    public int getMarge() {
-        return marge;
-    }
-
-    public void setMarge(int marge) {
-        this.marge = marge;
     }
 
     @Override
