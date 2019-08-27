@@ -118,8 +118,7 @@ public class ProductController {
 
     @GetMapping(value = "/Produits/orderByNom")
     public List<Product>trierProduitsParOrdreAlphabetique(){
-        boolean active = true;
-        return productDao.findByActiveOrderByNomAsc(active);
+        return productDao.findByIdNotNullOrderByNomAsc();
     }
 
 }
