@@ -12,6 +12,7 @@ import javax.validation.constraints.Min;
 
 
 @Entity
+@JsonIgnoreProperties(value = {"active"})
 //@JsonFilter("monFiltreDynamique")
 public class Product {
 
@@ -27,6 +28,7 @@ public class Product {
 
     //information que nous ne souhaitons pas exposer
     private int prixAchat;
+    private Boolean active;
 
     //constructeur par défaut
     public Product() {
@@ -70,6 +72,14 @@ public class Product {
 
     public void setPrixAchat(int prixAchat) {
         this.prixAchat = prixAchat;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override
